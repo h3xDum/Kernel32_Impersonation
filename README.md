@@ -245,7 +245,7 @@ this time using `GetThreadContext()`, it was practically the same.
 There were only two differences in the fields corresponding for 
 RIP & RSP, this makes sense first of all because of ASLR.
 
-To solve this program we will need to dynamically retrieve  
+To solve this problem we will need to dynamically retrieve  
 the address of the stack and set the corresponding RIP value
 to be the address of the function we want to jump to.
 to get the value of the stack I've just used this simple function
