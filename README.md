@@ -881,7 +881,7 @@ execute malicious code undetected.
 It can be used as is, or as an extra layer mechanism to harden the detection
 and reversing of any other malware implementation out there.
 Running it against Microsoft Defender on my pc didn't raise any flags as
-well as uploading it to virus total (only 2 most likely false flags).
+well as uploading it to virus total (only 2 negligible false positives).
 
 <img width="509" alt="virus_total" src="https://github.com/h3xDum/Kernel32_Impersonation/assets/58906938/8df51c99-ba45-47ac-9381-21ad13a73e09">
 
