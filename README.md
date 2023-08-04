@@ -862,8 +862,8 @@ __declspec(dllexport) int main() {
     HANDLE hStdOut = ((HANDLE)(LONG_PTR)-2);
     const char* message = "Hello World!";
     OVERLAPPED ovrlpd = { 0 };
-    checkDebugContext.Rsp = (DWORD64)RetRSP();
-    ovrlpd.hEvent = &checkDebugContext;
+    firstJumpContext.Rsp = (DWORD64)RetRSP();
+    ovrlpd.hEvent = &FfirstJumpContext;
     BOOL success = WriteFile(hStdOut, message, strlen(message), NULL, &ovrlpd);
     return 0;
 }
