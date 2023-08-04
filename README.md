@@ -1,5 +1,5 @@
 ************************************************************
-\***Heads Up***\*  The build architecture is specifically targeted 
+\***Heads Up**\*  The build architecture is specifically targeted 
 for my specific Windows 10 x64 build.
 Different Windows builds or architectures will have different
 syscall numbers, calling conventions and assembly.
@@ -169,7 +169,8 @@ RIP to the address of myFunc().
 Lets disassemble our binary to get an in-depth look of what is  
 actually going on  
 
-![[mainFunc.PNG]]
+<img width="222" alt="mainFunc" src="https://github.com/h3xDum/Kernel32_Impersonation/assets/58906938/6a3a5bc7-f1f1-48f9-9221-2fd835057966">
+
 
 \#Note\#  Before going forward we will need to know the x64 calling conventions.
 According to the MSDN the first four arguments are passed through 
