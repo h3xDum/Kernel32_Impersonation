@@ -169,7 +169,7 @@ RIP to the address of myFunc().
 Lets disassemble our binary to get an in-depth look of what is  
 actually going on  
 
-<img width="222" alt="mainFunc" src="https://github.com/h3xDum/Kernel32_Impersonation/assets/58906938/6a3a5bc7-f1f1-48f9-9221-2fd835057966">
+<img width="400" alt="mainFunc" src="https://github.com/h3xDum/Kernel32_Impersonation/assets/58906938/6a3a5bc7-f1f1-48f9-9221-2fd835057966">
 
 
 \#Note\#  Before going forward we will need to know the x64 calling conventions.
@@ -184,7 +184,9 @@ for this function the intended way.
 ##### 1. Thread Handle
 The handle to our current thread is passed through RCX   
 and obtained via `GetCurrentThread()`  
- ![[GetCurrentThread.PNG]]
+
+ <img width="373" alt="GetCurrentThread" src="https://github.com/h3xDum/Kernel32_Impersonation/assets/58906938/fefe397b-b32c-4fae-b210-64e37ef57f45">
+
 
 As we see its just a pseudo handle which means there's a special statically
 set value to reference our running thread 0FFFFFFFFFFFFFFFEh (-2).  
@@ -194,7 +196,8 @@ A pointer to our thread context structure is being passed to the
 function through RDX and obtained via the `GetThreadContext()` function  
 on our thread handle like so
 
-![[GetThreadContext.PNG]]
+<img width="611" alt="GetThreadContext" src="https://github.com/h3xDum/Kernel32_Impersonation/assets/58906938/caa9fcd3-4c57-41f0-a12f-cb9a5061ea74">
+
 
 Obviously this function doesn't just set some hardcoded value as 
 the thread context because every thread context is different, so
@@ -213,13 +216,15 @@ After getting an high view of how we are going to get the prerequisites
 for calling `SetThreadContext()` , now lets see what's going on inside the 
 function
 
-![[SetThreadContext.PNG]]
+<img width="628" alt="SetThreadContext" src="https://github.com/h3xDum/Kernel32_Impersonation/assets/58906938/61c31a24-aaea-42ae-a159-072201e97fc7">
+
 
 We are lucky! , there is no reordering of variables or actually nothing
 being preformed before the ntdll function `NtSetContextThread()` which
 invoke the syscall, its simply a basic wrapper with error handling for the ntdll function.    
 
-![[NtSetContextThreadGraph.png]]
+<img width="801" alt="NtSetContextThreadGraph" src="https://github.com/h3xDum/Kernel32_Impersonation/assets/58906938/7fe1e5d2-1bf1-4994-b00d-e1714c72f8ee">
+
 
 Finally, when the syscall is being invoked, all the kernel expects 
 is a pseudo thread handle via RCX (just a hardcoded value in our
@@ -332,7 +337,8 @@ int main() {
 
 Now lets disassemble it to see what is being done internally  
 
-![[mainFunc2.PNG]]
+<img width="259" alt="mainFunc2" src="https://github.com/h3xDum/Kernel32_Impersonation/assets/58906938/3e5cf735-a40f-40cc-baa8-3da45d7b098a">
+
   
 As we can see, according to the x64 calling convention, the arguments to `WriteFile()` are being moved first to last via RCX,RDX,R8,R9 and onto the stack accordingly.  
 Remember, all we want to do is trace down the call chain from `WriteFile()` until the Ntdll call that invoke the syscall to check which of the arguments will end up in RCX & RDX so we can make sure they will contain the thread handle and a context structure pointer accordingly.
@@ -485,7 +491,7 @@ Lets compare between the two calls to see what are the
 differences between the `NtWriteFile()` syscall and the 
 `NtSetContextThread()` syscall 
 
-![[NtWriteFile.PNG]]
+<img width="283" alt="NtWriteFile" src="https://github.com/h3xDum/Kernel32_Impersonation/assets/58906938/04a02d4e-e15d-495a-b941-a08d792029ca">
 
 Here's the normal routine of a syscall in windows performed 
 by ntdll.dll, first you set r10 to the value of RCX (referenced 
@@ -876,7 +882,7 @@ and reversing of any other malware implementation out there.
 Running it against Microsoft Defender on my pc didn't raise any flags as
 well as uploading it to virus total (only 2 most likely false flags).
 
-![[virus_total.PNG]]
+<img width="509" alt="virus_total" src="https://github.com/h3xDum/Kernel32_Impersonation/assets/58906938/8df51c99-ba45-47ac-9381-21ad13a73e09">
 
 
 
