@@ -432,9 +432,10 @@ Let's break it down for our relevant section, first the
 function check if the handle is invalid using a switch statement. 
 After that there are possibly two ways of invoking the `NtWriteFile()` call.
 1. Supplying an overlapped structure in our call
-	-> will result in passing its event field via RDX
+	-> will result in passing its event field via RDX.
 2. Supplying null overlapped structure in our call
-	-> will result in passing 0 via RDX
+	-> will result in passing 0 via RDX.
+
 What it actually means is that upon the `NtWriteFiile()` call
 the handle we pass in the first argument will remain in RCX 
 and the fifth argument we pass as the overlapped->event
